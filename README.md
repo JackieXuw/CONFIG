@@ -29,4 +29,10 @@ Under the directory where [README.md](./README.md) is, run `pip install .`.
 In the directory "./examples", we provide a notebook to demonstrate the usage of the toolbox. 
 
 # Citation
+If you use this toolbox for your research that leads to publications, we would
+appreciate your recognition by citing the following paper. 
+* [Xu, W., Jiang, Y., and Jones, C.N. (2022a). Con-
+strained efficient global optimization of expensive black-
+box functions. doi:10.48550/ARXIV.2211.00162. URL
+https://arxiv.org/abs/2211.00162.](https://arxiv.org/abs/2211.00162)
 
