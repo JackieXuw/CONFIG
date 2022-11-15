@@ -31,6 +31,5 @@ In the directory "./examples", we provide a notebook to demonstrate the usage of
 # Citation
 If you use this toolbox for your research that leads to publications, we would
 appreciate your recognition by citing the following paper. 
-* Xu, W., Jiang, Y., and Jones, C.N. (2022a). Constrained efficient global optimization of expensive black-
-box functions. doi:10.48550/ARXIV.2211.00162. URL [https://arxiv.org/abs/2211.00162.](https://arxiv.org/abs/2211.00162)
+* Xu, W., Jiang, Y., and Jones, C.N. (2022a). Constrained efficient global optimization of expensive black-box functions. doi:10.48550/ARXIV.2211.00162. URL [https://arxiv.org/abs/2211.00162.](https://arxiv.org/abs/2211.00162)
 
