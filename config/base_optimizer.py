@@ -14,6 +14,7 @@ class BaseEGO:
         self.inf = 1e12
         self.opt_problem = opt_problem
         self.parameter_set = opt_problem.parameter_set
+        self.var_dim = opt_problem.config['var_dim']
         noise_level = base_config['noise_level']
         if type(noise_level) in [list, np.ndarray]:
             self.noise_level = noise_level

@@ -2,7 +2,7 @@
  CONFIG (CONstrained efFIcient Global optimization) is a data-driven efficient global optimization toolbox. 
  By sequentially and adaptively evaluting different candidate solutions under the guidance of Gaussian process surrogates, 
  CONFIG algorithm can efficiently identify globally optimal solution for
- constrained optimization problems with potentially non-convex and multi-modal
+ constrained black-box optimization problems with potentially non-convex and multi-modal
  functions.
 
 # Use Cases
@@ -31,8 +31,6 @@ In the directory "./examples", we provide a notebook to demonstrate the usage of
 # Citation
 If you use this toolbox for your research that leads to publications, we would
 appreciate your recognition by citing the following paper. 
-* [Xu, W., Jiang, Y., and Jones, C.N. (2022a). Con-
-strained efficient global optimization of expensive black-
-box functions. doi:10.48550/ARXIV.2211.00162. URL
-https://arxiv.org/abs/2211.00162.](https://arxiv.org/abs/2211.00162)
+* Xu, W., Jiang, Y., and Jones, C.N. (2022a). Constrained efficient global optimization of expensive black-
+box functions. doi:10.48550/ARXIV.2211.00162. URL [https://arxiv.org/abs/2211.00162.](https://arxiv.org/abs/2211.00162)
 
