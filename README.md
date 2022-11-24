@@ -8,6 +8,7 @@
 $$
 \min J(\theta)\text{ subject to } J(\theta)\leq 0.
 $$
+
 ![Alt Text](https://github.com/login/device/figs/config_sample_process.gif)
 
 # Use Cases
