@@ -4,6 +4,11 @@
  CONFIG algorithm can efficiently identify globally optimal solution for
  constrained black-box optimization problems with potentially non-convex and multi-modal
  functions.
+## Sample problem in one-dimensional space.
+$$
+\min J(\theta)\text{ subject to } J(\theta)\leq 0.
+$$
+![](./figs/config_sample_process.gif)
 
 # Use Cases
 CONFIG toolbox can be applied for general black-box optimization problems with

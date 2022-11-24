@@ -83,6 +83,8 @@ def get_GP_sample_single_func(config, problem_name, problem_dim=None,
             kernel, config, noise_var, gp_kernel, safe_margin)
     func_min = np.min(func(parameter_set))
     config['f_min'] = func_min
+    config['parameter_set'] = parameter_set
+    config['eval_simu'] = False
 
     def f(x):
         return func(x, noise=False).squeeze(axis=1)
@@ -94,6 +96,7 @@ def get_GP_sample_single_func(config, problem_name, problem_dim=None,
     config['constrs_list'] = [g_1]
     config['init_safe_points'] = x0
     config['kernel'] = [kernel, kernel.copy()]
+    config['init_points'] = x0
     return config
 
 

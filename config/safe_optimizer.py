@@ -29,10 +29,12 @@ class SafeBO(BaseEGO):
         self.init_constr_val_arr = init_constr_val_arr
         self.best_obj = np.max(init_obj_val_arr[:, 0])
 
-        self.gp_obj = GPy.models.GPRegression(self.x0_arr,
-                                              init_obj_val_arr,
-                                              self.kernel_list[0],
-                                              noise_var=self.noise_level ** 2)
+        self.gp_obj = GPy.models.GPRegression(
+            self.x0_arr,
+            init_obj_val_arr,
+            self.kernel_list[0],
+            noise_var=self.noise_level[0] ** 2
+        )
 
         self.gp_constr_list = []
         for i in range(self.opt_problem.num_constrs):
@@ -42,7 +44,7 @@ class SafeBO(BaseEGO):
                                             init_constr_val_arr[:, i], axis=1
                                         ),
                                         self.kernel_list[i+1],
-                                        noise_var=self.noise_level ** 2
+                                        noise_var=self.noise_level[i+1] ** 2
                                         )
             )
 

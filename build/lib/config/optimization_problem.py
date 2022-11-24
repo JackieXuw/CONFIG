@@ -25,7 +25,7 @@ class OptimizationProblem:
         self.bounds = config['bounds']
         self.discretize_num_list = config['discretize_num_list']
         self.init_points = config['init_points']
-
+        self.init_safe_points = config['init_safe_points']
         self.train_X = config['train_X']
         self.train_obj, self.train_constr = self.sample_point(self.train_X,
                                                               record=False)
