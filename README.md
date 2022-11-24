@@ -9,6 +9,9 @@ $$
 \min J(\theta)\text{ subject to } J(\theta)\leq 0.
 $$
 
+<span style="color:red">Red triangle</span> represents the global optimum. 
+<span style="color:green">Green curve</span> represents the ground truth
+function. 
 ![Alt Text](https://github.com/JackieXuw/CONFIG/blob/master/figs/config_sample_process.gif)
 
 # Use Cases
