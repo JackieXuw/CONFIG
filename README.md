@@ -8,7 +8,7 @@
 $$
 \min J(\theta)\text{ subject to } J(\theta)\leq 0.
 $$
-![](https://github.com/login/device/figs/config_sample_process.gif)
+![Alt Text](https://github.com/login/device/figs/config_sample_process.gif)
 
 # Use Cases
 CONFIG toolbox can be applied for general black-box optimization problems with
