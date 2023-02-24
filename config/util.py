@@ -4,7 +4,7 @@ import GPy
 import safeopt
 
 """
-Define some utility functions for the test of safe Bayesian optimization,
+Define some utility functions for the test of safe Bayesian optimization, EPBO,
 constrained Bayesian optimization, and our method.
 """
 
