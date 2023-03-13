@@ -8,6 +8,21 @@ Define some utility functions for the test of safe Bayesian optimization, EPBO,
 constrained Bayesian optimization, and our method.
 """
 
+def get_ApartTherm_kpis(controller, params):
+    pass
+    # [TODO] Implement the get_ApartTherm_kpis functions
+    return None, None
+
+cost_funcs = {
+        'square': lambda x: np.square(x),
+        'exp': lambda x: np.exp(x) - 1,
+        'linear': lambda x: x
+    }
+cost_funcs_inv = {
+        'square': lambda x: np.sqrt(x),
+        'exp': lambda x: np.log(x+1),
+        'linear': lambda x: x
+    }
 
 # Generate function with safe initial point at x=0
 def sample_safe_fun(kernel, config, noise_var, gp_kernel, safe_margin):
@@ -39,6 +54,7 @@ def get_sinusodal_config(config):
     config['obj'] = f
     config['constrs_list'] = [g_1]
     config['init_safe_points'] = np.array([[math.pi * 0.5, math.pi * 0.5]])
+    return config
 
 
 def get_GP_sample_single_func(config, problem_name, problem_dim=None,
@@ -174,6 +190,91 @@ def get_config(problem_name, problem_dim=None, gp_kernel=None,
         config['init_safe_points'] = x0
         config['kernel'] = [kernel, kernel.copy()]
         config['init_points'] = x0
+    if problem_name == 'energym_apartment_therm_tune':
+        if problem_dim is None:
+            problem_dim = 2
+        if gp_kernel is None:
+            gp_kernel = 'Gaussian'
+        config['var_dim'] = problem_dim
+        config['discretize_num_list'] = [100] * problem_dim
+        config['num_constrs'] = 1
+        config['bounds'] = [(0.01, 0.3), (15, 20)] #[(0.05, 0.95), (18, 25)] #[(0.05, 0.95), (0.05, 0.95)] # [(0.05, 0.45), (0.5, 0.95)] #[(-10, 10)] * problem_dim
+        config['train_X'] = safeopt.linearly_spaced_combinations(
+            config['bounds'],
+            2 #config['discretize_num_list']
+        )
+
+        config['eval_simu'] = True
+        config['eta_func'] = lambda t: 3/np.sqrt(t * 1.0)
+        # Measurement noise
+        noise_var = 0.00  # 0.05 ** 2
+
+        # Bounds on the inputs variable
+        parameter_set = \
+            safeopt.linearly_spaced_combinations(config['bounds'],
+                                                 config['discretize_num_list'])
+
+        # Define Kernel
+        if gp_kernel == 'Gaussian':
+            kernel = GPy.kern.RBF(input_dim=len(config['bounds']), variance=1.,
+                                  lengthscale=[0.3/3.0, 2.0/3.0], ARD=True)
+            constr_kernel = GPy.kern.RBF(
+                input_dim=len(config['bounds']), variance=1.,
+                lengthscale=[0.3/3.0, 2.0/3.0], ARD=True)
+
+        if gp_kernel == 'poly':
+            kernel = GPy.kern.Poly(input_dim=len(config['bounds']),
+                                   variance=2.0,
+                                   scale=1.0,
+                                   order=1)
+
+        # Initial safe point
+        x0 = np.array([[0.3, 20]])
+
+        def f(x, simulator_to_use=None):
+            energy_mean = 1117.9042996350206 #1500.954861111111  # 385.3506855413606
+            energy_std = 112.68479944833072 # 12.634541238981747 # 15.832128159177238
+            dev_mean =  1.2810264538593588 * 3.0 #0.31793574850163836 # 0.48119964518630765
+            dev_std =  0.7189539259567139 #0.03637075568519829 # 0.016940298884339722
+            size_batch, _ = x.shape
+            energy_list = []
+            dev_list = []
+            #print(f'Size batch {size_batch}!')
+            for k in range(size_batch):
+                energy, dev = get_ApartTherm_kpis(
+                    controller='P', params=(x[k, 0], x[k, 1]))
+                energy_list.append([energy])
+                dev_list.append([dev])
+            energy_arr = (np.array(energy_list) - energy_mean) / energy_std
+            dev_arr = (np.array(dev_list) - dev_mean) / dev_std
+            return energy_arr, dev_arr, simulator_to_use
+
+        def g_1(x, simulator_to_use=None):
+            energy_mean = 1117.9042996350206 #1500.954861111111  # 385.3506855413606
+            energy_std = 112.68479944833072 # 12.634541238981747 # 15.832128159177238
+            dev_mean =  1.2810264538593588 #0.31793574850163836 # 0.48119964518630765
+            dev_std =  0.7189539259567139 #0.03637075568519829 # 0.016940298884339722
+            size_batch, _ = x.shape
+            energy_list = []
+            dev_list = []
+            for k in range(size_batch):
+                energy, dev = get_ApartTherm_kpis(
+                    controller='P', params=(x[k, 0], x[k, 1]))
+                energy_list.append([energy])
+                dev_list.append([dev])
+            energy_arr = (np.array(energy_list) - energy_mean) / energy_std
+            dev_arr = (np.array(dev_list) - dev_mean) / dev_std
+            return dev_arr, energy_arr, simulator_to_use
+
+        config['obj'] = f
+        config['constrs_list'] = [g_1]
+        config['vio_cost_funcs_list'] = [cost_funcs['square']]
+        config['vio_cost_funcs_inv_list'] = [cost_funcs_inv['square']]
+        config['init_safe_points'] = x0
+        config['kernel'] = [kernel, constr_kernel]
+        print(config)
+
+
     return config
 
 
